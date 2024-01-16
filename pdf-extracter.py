@@ -29,7 +29,7 @@ def extract_values(text, term):
 
 def main():
     # Specify the path to your PDF file
-    pdf_path = 'path_to_your_pdf.pdf'  # Replace with the actual PDF file path
+    pdf_path = 'afr2022.pdf'  # Replace with the actual PDF file path
 
     # Extract text from the PDF
     pdf_text = extract_text_from_pdf(pdf_path)
@@ -40,9 +40,11 @@ def main():
     # Extract values associated with the search term from the PDF text
     extracted_values = extract_values(pdf_text, search_term)
 
-    # Print or process the extracted values
-    for value in extracted_values:
-        print(value)
+    # Create a DataFrame with the extracted values
+    df = pd.DataFrame(extracted_values, columns=['Extracted Values'])
+
+    # Save the DataFrame to a CSV file
+    df.to_csv('extracted_values.csv', index=False)
 
 if __name__ == "__main__":
     main()
