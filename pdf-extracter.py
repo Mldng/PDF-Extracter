@@ -25,3 +25,21 @@ def extract_values(text, term):
 
     # Use re.findall to search for all occurrences of the pattern in the provided text
     return re.findall(pattern, text)
+
+
+def main():
+    # Specify the path to your PDF file
+    pdf_path = 'path_to_your_pdf.pdf'  # Replace with the actual PDF file path
+
+    # Extract text from the PDF
+    pdf_text = extract_text_from_pdf(pdf_path)
+
+    # Define the term to search for
+    search_term = "Gains (losses) on other investments"
+
+    # Extract values associated with the search term from the PDF text
+    extracted_values = extract_values(pdf_text, search_term)
+
+    # Print or process the extracted values
+    for value in extracted_values:
+        print(value)
