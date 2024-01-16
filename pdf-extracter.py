@@ -43,3 +43,6 @@ def main():
     # Print or process the extracted values
     for value in extracted_values:
         print(value)
+
+if __name__ == "__main__":
+    main()
