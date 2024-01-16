@@ -17,3 +17,11 @@ def extract_text_from_pdf(pdf_path):
 
         # Join all the extracted text into a single string, separated by newlines
         return "\n".join(full_text)
+
+def extract_values(text, term):
+    # Define a regular expression pattern to match the specified term followed by a series of financial figures
+    # The pattern is dynamically constructed using the term provided
+    pattern = fr'{re.escape(term)}[^¥$]*[¥$][0-9,\(\)-]+(?: [¥$][0-9,\(\)-]+)+'
+
+    # Use re.findall to search for all occurrences of the pattern in the provided text
+    return re.findall(pattern, text)
