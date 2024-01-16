@@ -1,6 +1,7 @@
 import pdfplumber
 import pandas as pd
 import re
+import os
 
 def extract_text_from_pdf(pdf_path):
     # Open the PDF file at the specified path using pdfplumber
@@ -23,9 +24,23 @@ def extract_values(text, term):
     # The pattern is dynamically constructed using the term provided
     pattern = fr'{re.escape(term)}[^¥$]*[¥$][0-9,\(\)-]+(?: [¥$][0-9,\(\)-]+)+'
 
-    # Use re.findall to search for all occurrences of the pattern in the provided text
-    return re.findall(pattern, text)
+    matches = re.findall(pattern, text)
 
+    # Extract only the numeric values from each match
+    values = []
+    for match in matches:
+        numbers = re.findall(r'[¥$][0-9,\(\)-]+', match)
+        values.extend(numbers)
+    return values
+
+def save_csv(df, term):
+    print(f'Saving data for {term}')
+    save_path = os.path.join(os.getcwd(),'csv')
+    if not os.path.exists(save_path):
+        os.makedirs(save_path)
+    save_name = f'{save_path}/{term}.csv'
+    df.to_csv(save_name, index=False)
+    print(f'finished saving data for {term}')
 
 def main():
     # Specify the path to your PDF file
@@ -44,7 +59,7 @@ def main():
     df = pd.DataFrame(extracted_values, columns=['Extracted Values'])
 
     # Save the DataFrame to a CSV file
-    df.to_csv('extracted_values.csv', index=False)
+    save_csv(df,search_term)
 
 if __name__ == "__main__":
     main()
